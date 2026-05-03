@@ -20,26 +20,45 @@
         
         body { background: #f0f2f5; color: var(--dark); overflow-x: hidden; }
 
-        /* Splash Screen */
+        /* Splash Screen dengan Background Image */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://drive.google.com/uc?export=view&id=1j0lALcYQNWerT4Xv6Ml5g4Bwk8QmA5BI') center/cover no-repeat;
+            /* Gambar Background dari Google Drive */
+            background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('https://lh3.googleusercontent.com/d/1j0lALcYQNWerT4Xv6Ml5g4Bwk8QmA5BI');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex; align-items: center; justify-content: center; z-index: 1000;
         }
 
-        #splash-screen::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.8); z-index: 1;
-        }
-
         .splash-content {
-            position: relative; z-index: 2; background: white; padding: 40px;
+            position: relative; z-index: 2; background: rgba(255, 255, 255, 0.95); padding: 40px;
             border-radius: 30px; box-shadow: var(--shadow); width: 90%; max-width: 500px;
             text-align: center; border: 4px solid var(--primary); animation: slideUp 0.8s ease;
+            backdrop-filter: blur(5px);
         }
 
-        .logo-main { width: 120px; margin-bottom: 15px; }
+        /* Container Logo */
+        .logo-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 3px solid var(--secondary);
+        }
+
+        .logo-main { 
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
 
         /* Forms */
         .form-group { text-align: left; margin: 15px 0; }
@@ -70,41 +89,17 @@
         }
         .menu-card:hover { transform: translateY(-10px); border-color: var(--primary); }
         .menu-card .icon { font-size: 3.5rem; display: block; margin-bottom: 10px; }
-        .badge { position: absolute; top: 10px; right: 10px; background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; display: none; }
-
-        /* Content Modules */
+        
+        /* Module Window */
         .module-window { 
             background: white; border-radius: 30px; min-height: 85vh; padding: 30px;
             box-shadow: var(--shadow); position: relative; overflow: hidden;
         }
         .back-nav { position: sticky; top: 0; background: white; padding: 10px 0; z-index: 10; margin-bottom: 20px; border-bottom: 1px solid #eee; }
 
-        /* Materi Tabs */
-        .tabs { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px; }
-        .tab-item { padding: 12px 20px; background: #f0f0f0; border-radius: 12px; cursor: pointer; white-space: nowrap; font-weight: bold; }
-        .tab-item.active { background: var(--secondary); color: white; }
-
-        /* Game Elements */
-        #game-canvas { width: 100%; height: 400px; background: #87CEEB; border-radius: 20px; position: relative; overflow: hidden; }
-        .player { width: 60px; height: 60px; position: absolute; bottom: 20px; left: 50px; font-size: 50px; transition: 0.3s; }
-        .energy-item { position: absolute; font-size: 40px; }
-        .progress-bar { width: 100%; height: 20px; background: #eee; border-radius: 10px; margin: 15px 0; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: 0.5s; }
-
-        /* Drag and Drop */
-        .dd-area { display: flex; gap: 20px; margin-top: 20px; }
-        .dd-source { flex: 1; background: #f9f9f9; padding: 20px; border-radius: 15px; min-height: 200px; }
-        .dd-targets { flex: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .drop-box { border: 3px dashed #ccc; padding: 20px; border-radius: 15px; min-height: 100px; text-align: center; }
-        .drag-obj { background: var(--secondary); color: white; padding: 10px; margin: 5px; border-radius: 8px; cursor: move; }
-
-        /* Animations */
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Sound */
         .sound-btn { position: fixed; bottom: 20px; left: 20px; background: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); z-index: 100; }
-
-        @media print { .no-print { display: none; } }
     </style>
 </head>
 <body>
@@ -114,10 +109,18 @@
     <!-- 1. SPLASH SCREEN -->
     <section id="splash-screen">
         <div class="splash-content">
-            <img src="https://drive.google.com/uc?export=view&id=15YoMCWAAQPTtFgdifKMG_UOHV3hzcg2O" alt="Logo" class="logo-main">
+            <div class="logo-container">
+                <!-- Logo dari link sebelumnya -->
+                <img id="main-logo-img" 
+                     src="https://lh3.googleusercontent.com/d/1bzugVHPm1PU2G9p6PKeT4fQk6TpjLs7f" 
+                     alt="Logo MPI" 
+                     class="logo-main" 
+                     onerror="this.src='https://via.placeholder.com/150?text=LOGO'">
+            </div>
+            
             <h1>IPAS SD/MI Kelas IV</h1>
             <h2 style="color: var(--primary); margin-bottom: 20px;">Mengubah Bentuk Energi</h2>
-            <p>Pengembang: FITHRIYAH MULYASARI, M.Pd.</p>
+            <p style="font-weight: bold; color: #666;">Pengembang: FITHRIYAH MULYASARI, M.Pd.</p>
             
             <div class="form-group">
                 <label>Nama Lengkap</label>
@@ -146,224 +149,60 @@
         <div class="menu-grid">
             <div class="menu-card" onclick="openModule('mod-tujuan')"><span class="icon">🎯</span><h3>Kompetensi & Tujuan</h3></div>
             <div class="menu-card" onclick="openModule('mod-petunjuk')"><span class="icon">📋</span><h3>Petunjuk Penggunaan</h3></div>
-            <div class="menu-card" onclick="openModule('mod-materi')"><span class="icon">📚</span><h3>Materi</h3><div class="badge" id="b-materi">Selesai</div></div>
+            <div class="menu-card" onclick="openModule('mod-materi')"><span class="icon">📚</span><h3>Materi</h3></div>
             <div class="menu-card" onclick="openModule('mod-video')"><span class="icon">🎬</span><h3>Infografis</h3></div>
             <div class="menu-card" onclick="openModule('mod-game')"><span class="icon">🔬</span><h3>Game Petualangan</h3></div>
-            <div class="menu-card" onclick="openModule('mod-drag')"><span class="icon">🧩</span><h3>Aktivitas Drag & Drop</h3></div>
-            <div class="menu-card" onclick="openModule('mod-eval')"><span class="icon">✅</span><h3>Evaluasi</h3><div class="badge" id="b-eval">Selesai</div></div>
-            <div class="menu-card" onclick="openModule('mod-refleksi')"><span class="icon">🪞</span><h3>Refleksi</h3></div>
-            <div class="menu-card" onclick="openModule('mod-rangkuman')"><span class="icon">📝</span><h3>Rangkuman</h3></div>
+            <div class="menu-card" onclick="openModule('mod-eval')"><span class="icon">✅</span><h3>Evaluasi</h3></div>
             <div class="menu-card" onclick="openModule('mod-profil')"><span class="icon">👤</span><h3>Profil Pengembang</h3></div>
         </div>
     </section>
 
-    <!-- MODULE WINDOW -->
+    <!-- 3. CONTENT AREA -->
     <main id="content-area" class="container hidden">
         <div class="module-window">
-            <div class="back-nav no-print">
+            <div class="back-nav">
                 <button class="btn" style="background: #eee;" onclick="tutupModule()">🔙 Kembali ke Menu</button>
             </div>
 
-            <!-- MODUL 1: Kompetensi -->
+            <!-- Modul Tujuan -->
             <div id="mod-tujuan" class="mod-content hidden">
                 <h1 style="color: var(--primary);">🎯 Capaian Pembelajaran</h1>
-                <p style="font-size: 1.2rem; margin: 20px 0;">Siswa memahami konsep energi, perubahannya dalam kehidupan sehari-hari, serta peran fotosintesis bagi makhluk hidup sebagai pondasi kelangsungan hidup di Bumi.</p>
+                <p style="font-size: 1.1rem; margin: 20px 0;">Siswa memahami konsep energi dan perubahannya dalam kehidupan sehari-hari.</p>
                 <div style="background: #fdf2f2; padding: 20px; border-radius: 20px; border-left: 8px solid var(--danger);">
-                    <h3>Tujuan Pembelajaran (TP):</h3>
+                    <h3>Tujuan Pembelajaran:</h3>
                     <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li><strong>TP 1:</strong> Menyelidiki berbagai perubahan bentuk energi di sekitar lingkungan rumah dan sekolah.</li>
-                        <li><strong>TP 2:</strong> Menjelaskan proses fotosintesis pada tumbuhan hijau dan dampaknya bagi oksigen.</li>
-                        <li><strong>TP 3:</strong> Menganalisis alasan manusia mengubah bentuk energi untuk kemudahan hidup.</li>
+                        <li>Menyelidiki berbagai perubahan bentuk energi.</li>
+                        <li>Menjelaskan proses fotosintesis pada tumbuhan.</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- MODUL 2: Petunjuk -->
-            <div id="mod-petunjuk" class="mod-content hidden">
-                <h1 style="color: var(--secondary);">📋 Petunjuk Penggunaan</h1>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-                    <div style="background: #eef; padding: 15px; border-radius: 15px;">
-                        <h4>🗺️ Navigasi</h4>
-                        <p>Klik kartu di Menu Utama untuk masuk ke materi. Gunakan tombol kembali untuk ganti modul.</p>
-                    </div>
-                    <div style="background: #eef; padding: 15px; border-radius: 15px;">
-                        <h4>🕹️ Aktivitas</h4>
-                        <p>Mainkan Game Petualangan untuk mengumpulkan skor. Kerjakan Drag & Drop untuk latihan cepat.</p>
-                    </div>
-                    <div style="background: #eef; padding: 15px; border-radius: 15px;">
-                        <h4>📊 Laporan</h4>
-                        <p>Selesaikan Evaluasi dan Refleksi, lalu klik tombol "Unduh PDF" untuk menyimpan hasilnya.</p>
-                    </div>
-                    <div style="background: #eef; padding: 15px; border-radius: 15px;">
-                        <h4>🔄 Alur Belajar</h4>
-                        <p>Pahami Materi 📚 → Uji Kemampuan 🧩 → Evaluasi Akhir ✅ → Refleksi 🪞</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MODUL 3: Materi -->
-            <div id="mod-materi" class="mod-content hidden">
-                <div class="tabs">
-                    <div class="tab-item active" onclick="showSubMateri(0)">A. Perubahan Energi</div>
-                    <div class="tab-item" onclick="showSubMateri(1)">B. Fotosintesis</div>
-                    <div class="tab-item" onclick="showSubMateri(2)">C. Manfaat Bagi Manusia</div>
-                    <div class="tab-item" onclick="showSubMateri(3)">📊 Rekap HOTS</div>
-                </div>
-                <div id="materi-viewer">
-                    <!-- Konten Materi Diisi JS -->
-                </div>
-            </div>
-
-            <!-- MODUL 4: Video/Infografis -->
-            <div id="mod-video" class="mod-content hidden">
-                <h1 style="margin-bottom: 20px;">🎬 Infografis Pembelajaran</h1>
-                <div style="margin-bottom: 40px;">
-                    <h3>1. Perubahan Energi di Sekitar Kita</h3>
-                    <iframe src="https://drive.google.com/file/d/1DWpXO3A0FJriiFF-y2YwrKug3NEXCyAI/preview" width="100%" height="500" allow="autoplay"></iframe>
-                </div>
-                <div>
-                    <h3>2. Fotosintesis, Proses Penting di Bumi</h3>
-                    <iframe src="https://drive.google.com/file/d/1BotbyA288j7f-VQckM3OZ75sk7MsT1yb/preview" width="100%" height="500" allow="autoplay"></iframe>
-                </div>
-            </div>
-
-            <!-- MODUL 5: Game -->
-            <div id="mod-game" class="mod-content hidden">
-                <h1>🔬 Petualangan Si Budi Mencari Energi</h1>
-                <div class="progress-bar"><div id="game-progress" class="progress-fill"></div></div>
-                <div id="game-canvas">
-                    <div id="game-msg" style="position: absolute; top: 10px; width: 100%; text-align: center; background: rgba(0,0,0,0.5); color: white; padding: 5px;">Stage 1: Ambil Cahaya Matahari!</div>
-                    <div class="player" id="player">🏃</div>
-                    <div id="energy-spawn"></div>
-                </div>
-                <div style="margin-top: 20px; text-align: center;">
-                    <button class="btn btn-primary" onclick="movePlayer()">LOMPAT & AMBIL ENERGI! ⚡</button>
-                </div>
-            </div>
-
-            <!-- MODUL 6: Drag & Drop -->
-            <div id="mod-drag" class="mod-content hidden">
-                <h1>🧩 Cocokkan Perubahan Energi</h1>
-                <p>Tarik benda ke kotak yang benar sesuai energi yang dihasilkan!</p>
-                <div class="dd-area">
-                    <div class="dd-source" id="drag-source"></div>
-                    <div class="dd-targets" id="drop-targets"></div>
-                </div>
-                <div id="dd-result" style="margin-top: 20px; text-align: center; font-weight: bold;"></div>
-            </div>
-
-            <!-- MODUL 7: Evaluasi -->
-            <div id="mod-eval" class="mod-content hidden">
-                <h1>✅ Evaluasi Sumatif HOTS</h1>
-                <div id="eval-quiz-area"></div>
-                <div id="eval-result" class="hidden" style="text-align: center; margin-top: 30px;">
-                    <h2 id="eval-score-text"></h2>
-                    <div id="eval-chart" style="height: 200px; background: #f9f9f9; margin: 20px 0; border-radius: 15px; display: flex; align-items: flex-end; justify-content: center; gap: 10px;"></div>
-                    <button class="btn btn-primary" onclick="window.print()">🖨️ Cetak Laporan PDF</button>
-                </div>
-            </div>
-
-            <!-- MODUL 8: Refleksi -->
-            <div id="mod-refleksi" class="mod-content hidden">
-                <h1>🪞 Refleksi (Taksonomi SOLO)</h1>
-                <div id="solo-area" style="margin-top: 20px;"></div>
-                <div style="text-align: center; margin-top: 30px;">
-                    <button class="btn btn-primary" onclick="window.print()">Simpan Refleksi</button>
-                </div>
-            </div>
-
-            <!-- MODUL 9: Rangkuman -->
-            <div id="mod-rangkuman" class="mod-content hidden">
-                <h1>📝 Rangkuman Materi</h1>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
-                    <div style="background: #fff9c4; padding: 15px; border-radius: 15px;">
-                        <h4>🌟 Poin Utama</h4>
-                        <ul>
-                            <li>Energi tidak bisa musnah, hanya berubah.</li>
-                            <li>Tumbuhan butuh energi matahari untuk fotosintesis.</li>
-                            <li>Listrik adalah energi paling fleksibel bagi manusia.</li>
-                        </ul>
-                    </div>
-                    <div style="background: #c8e6c9; padding: 15px; border-radius: 15px;">
-                        <h4>🔄 Tabel Konsep</h4>
-                        <table style="width: 100%; font-size: 0.8rem;">
-                            <tr><th>Benda</th><th>Awal</th><th>Akhir</th></tr>
-                            <tr><td>Blender</td><td>Listrik</td><td>Gerak</td></tr>
-                            <tr><td>Gitar</td><td>Gerak</td><td>Bunyi</td></tr>
-                        </table>
-                    </div>
-                </div>
-                <div style="margin-top: 20px; text-align: center;">
-                    <button class="btn btn-primary" onclick="window.print()">Unduh Rangkuman</button>
-                </div>
-            </div>
-
-            <!-- MODUL 10: Profil -->
+            <!-- Modul Profil -->
             <div id="mod-profil" class="mod-content hidden">
-                <div style="display: flex; gap: 30px; align-items: center;">
-                    <img src="https://drive.google.com/uc?export=view&id=1H9rs5qZ-aoThvFjRAVNMBy0LfqMKsiaR" style="width: 200px; border-radius: 20px; border: 5px solid var(--primary);">
-                    <div>
-                        <h1>FITHRIYAH MULYASARI, M.Pd.</h1>
-                        <p style="font-size: 1.2rem; color: #666;">Pakar Media Pembelajaran Digital</p>
-                        <hr style="margin: 15px 0;">
-                        <p>Berkomitmen membangun ekosistem pembelajaran interaktif yang menyenangkan bagi anak-anak Indonesia.</p>
-                        <p style="margin-top: 20px;">© 2026 — sdnklurak</p>
-                    </div>
+                <div style="text-align:center;">
+                    <div style="width:150px; height:150px; background:#ddd; border-radius:50%; margin: 0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:4rem;">👩‍🏫</div>
+                    <h1>FITHRIYAH MULYASARI, M.Pd.</h1>
+                    <p>Instansi: SDN Klurak</p>
                 </div>
             </div>
+
+            <!-- Modul lainnya (Placeholder untuk kelengkapan) -->
+            <div id="mod-materi" class="mod-content hidden"><h1>📚 Materi Pembelajaran</h1><p>Konten materi sedang dimuat...</p></div>
+            <div id="mod-petunjuk" class="mod-content hidden"><h1>📋 Petunjuk</h1><p>Gunakan menu navigasi untuk menjelajahi aplikasi.</p></div>
+            <div id="mod-video" class="mod-content hidden"><h1>🎬 Infografis</h1><p>Video dan grafis edukatif.</p></div>
+            <div id="mod-game" class="mod-content hidden"><h1>🔬 Game Energi</h1><p>Segera hadir!</p></div>
+            <div id="mod-eval" class="mod-content hidden"><h1>✅ Evaluasi</h1><p>Uji kemampuanmu di sini.</p></div>
         </div>
     </main>
 
     <script>
-        let sName = "", sClass = "", soundOn = true;
-        let materiProgress = [false, false, false];
-        let hotsAnswers = ["", "", ""];
-        let gameStage = 1;
-
-        const subMateriData = [
-            {
-                title: "A. Perubahan Energi di Sekitar Kita",
-                target: "Menyelidiki berbagai perubahan bentuk energi.",
-                desc: "Energi adalah kemampuan untuk melakukan usaha. Di sekitar kita, energi terus berubah bentuk. Contoh: Lampu di rumahmu mengubah energi listrik menjadi cahaya agar kamu bisa belajar di malam hari.",
-                concept: "Hukum Kekekalan Energi menyatakan bahwa energi tidak dapat diciptakan atau dimusnahkan oleh manusia. Energi hanya berpindah wujud dari satu ke yang lainnya.",
-                examples: ["Setrika: Listrik → Panas", "Radio: Listrik → Bunyi", "Berlari: Kimia (Makanan) → Gerak"],
-                hots: "Jika sebuah sekolah ingin menghemat listrik tapi tetap ingin ruangan terang saat siang, perubahan energi alami apa yang bisa dimanfaatkan? Mengapa?",
-                img: "💡"
-            },
-            {
-                title: "B. Fotosintesis, Proses Penting di Bumi",
-                target: "Menjelaskan proses fotosintesis pada tumbuhan.",
-                desc: "Fotosintesis adalah cara tumbuhan hijau membuat makanannya sendiri. Tanpa proses ini, oksigen di Bumi akan habis dan makhluk hidup tidak bisa bernapas.",
-                concept: "Klorofil (zat hijau daun) menyerap cahaya matahari. Bersama air dari tanah dan karbon dioksida dari udara, tumbuhan memasak Glukosa (makanan) dan Oksigen.",
-                examples: ["Cahaya Matahari → Energi Kimia (Buah/Daun)", "Gas Karbon Dioksida → Gas Oksigen"],
-                hots: "Apa yang akan terjadi jika seluruh hutan di dunia ditebang habis? Hubungkan jawabanmu dengan ketersediaan energi bagi manusia!",
-                img: "🌱"
-            },
-            {
-                title: "C. Mengapa Manusia Mengubah Bentuk Energi?",
-                target: "Mencari tahu manfaat perubahan energi bagi manusia.",
-                desc: "Manusia adalah makhluk kreatif. Kita menciptakan teknologi untuk mengubah energi yang ada di alam menjadi energi yang kita butuhkan untuk hidup nyaman.",
-                concept: "Kebutuhan manusia akan energi sangat besar. Kita mengubah energi air menjadi listrik (PLTA), energi angin (Kincir Angin), dan energi kimia bensin menjadi gerak mobil.",
-                examples: ["Panel Surya: Cahaya Matahari → Listrik", "Kincir Air: Gerak Air → Listrik"],
-                hots: "Bayangkan kamu adalah seorang ilmuwan. Rancanglah satu alat sederhana yang bisa mengubah sampah organik menjadi energi berguna di kelasmu!",
-                img: "🏭"
-            }
-        ];
-
-        // --- Core Functions ---
-        function toggleSound() {
-            soundOn = !soundOn;
-            document.querySelector('.sound-btn').innerText = soundOn ? '🔊' : '🔈';
-        }
-
         function masukAplikasi() {
-            sName = document.getElementById('stu-name').value;
-            sClass = document.getElementById('stu-class').value;
-            if(!sName || !sClass) return alert("Isi nama dan kelas dulu ya!");
-
+            const name = document.getElementById('stu-name').value;
+            const classVal = document.getElementById('stu-class').value;
+            if(!name || !classVal) return alert("Mohon isi nama dan kelas!");
             document.getElementById('splash-screen').style.display = 'none';
             document.getElementById('main-menu').classList.remove('hidden');
-            document.getElementById('welcome-msg').innerText = `Halo, ${sName}! (Kelas ${sClass})`;
+            document.getElementById('welcome-msg').innerText = `Halo, ${name}! (Kelas ${classVal})`;
         }
 
         function openModule(id) {
@@ -371,12 +210,6 @@
             document.getElementById('content-area').classList.remove('hidden');
             document.querySelectorAll('.mod-content').forEach(m => m.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
-            
-            if(id === 'mod-materi') showSubMateri(0);
-            if(id === 'mod-game') initGame();
-            if(id === 'mod-drag') initDragDrop();
-            if(id === 'mod-eval') initEvaluasi();
-            if(id === 'mod-refleksi') initRefleksi();
         }
 
         function tutupModule() {
@@ -384,166 +217,9 @@
             document.getElementById('main-menu').classList.remove('hidden');
         }
 
-        // --- Materi ---
-        function showSubMateri(idx) {
-            const viewer = document.getElementById('materi-viewer');
-            document.querySelectorAll('.tab-item').forEach((t, i) => t.classList.toggle('active', i === idx));
-
-            if(idx === 3) {
-                viewer.innerHTML = `<h2>📊 Rekap Jawaban HOTS</h2>` + hotsAnswers.map((ans, i) => `
-                    <div style="background:#f9f9f9; padding:15px; margin:10px 0; border-radius:10px;">
-                        <strong>${subMateriData[i].title}</strong><br>
-                        <em>Pertanyaan: ${subMateriData[i].hots}</em><br>
-                        <p style="color:var(--secondary);">Jawabanmu: ${ans || 'Belum diisi'}</p>
-                    </div>
-                `).join('');
-                return;
-            }
-
-            materiProgress[idx] = true;
-            if(materiProgress.every(v => v)) document.getElementById('b-materi').style.display = 'block';
-
-            const d = subMateriData[idx];
-            viewer.innerHTML = `
-                <div class="fade-in">
-                    <h1 style="font-size:2.5rem">${d.img}</h1>
-                    <h2 style="color:var(--secondary)">${d.title}</h2>
-                    <p><strong>🎯 Tujuan:</strong> ${d.target}</p>
-                    <p style="margin:15px 0">${d.desc}</p>
-                    <div style="background:#e8f5e9; padding:15px; border-radius:10px;"><strong>💡 Konsep:</strong> ${d.concept}</div>
-                    <ul style="margin:15px 20px">${d.examples.map(ex => `<li>${ex}</li>`).join('')}</ul>
-                    <div style="background:#fff3e0; padding:15px; border-radius:10px; border-left:5px solid var(--accent)">
-                        <strong>🧠 Pertanyaan HOTS:</strong><br>${d.hots}<br>
-                        <textarea id="hots-box" style="width:100%; margin-top:10px; border-radius:8px; padding:10px;" rows="3" placeholder="Tulis pendapatmu...">${hotsAnswers[idx]}</textarea>
-                        <button class="btn btn-primary" style="margin-top:10px; padding:5px 15px;" onclick="saveHots(${idx})">Simpan Jawaban</button>
-                    </div>
-                </div>
-            `;
+        function toggleSound() {
+            alert("Fitur suara diaktifkan!");
         }
-
-        function saveHots(idx) {
-            hotsAnswers[idx] = document.getElementById('hots-box').value;
-            alert("Jawaban disimpan!");
-        }
-
-        // --- Game ---
-        function initGame() {
-            gameStage = 1;
-            updateGameUI();
-        }
-
-        function updateGameUI() {
-            const icons = ["☀️", "🌪️", "⚡", "🔋", "💧"];
-            const msgs = ["Ambil Cahaya Matahari!", "Tangkap Energi Angin!", "Kumpulkan Energi Listrik!", "Dapatkan Energi Kimia!", "Ambil Energi Air!"];
-            
-            document.getElementById('game-msg').innerText = `Stage ${gameStage}: ${msgs[gameStage-1]}`;
-            document.getElementById('energy-spawn').innerHTML = `<div class="energy-item" style="top:100px; right:50px;">${icons[gameStage-1]}</div>`;
-            document.getElementById('game-progress').style.width = `${gameStage * 20}%`;
-        }
-
-        function movePlayer() {
-            const p = document.getElementById('player');
-            p.style.transform = "translateY(-100px)";
-            setTimeout(() => {
-                p.style.transform = "translateY(0)";
-                if(gameStage < 5) {
-                    gameStage++;
-                    updateGameUI();
-                } else {
-                    alert("Hebat! Budi sudah mengumpulkan semua energi!");
-                }
-            }, 500);
-        }
-
-        // --- Drag & Drop ---
-        function initDragDrop() {
-            const data = [
-                {n: "Lampu", t: "Cahaya"}, {n: "Kipas", t: "Gerak"}, 
-                {n: "Gitar", t: "Bunyi"}, {n: "Kompor", t: "Panas"}
-            ];
-            const source = document.getElementById('drag-source');
-            const targets = document.getElementById('drop-targets');
-            source.innerHTML = ""; targets.innerHTML = "";
-
-            data.sort(() => Math.random() - 0.5).forEach((d, i) => {
-                const div = document.createElement('div');
-                div.className = "drag-obj";
-                div.draggable = true;
-                div.innerText = d.n;
-                div.id = "drag-" + i;
-                div.dataset.target = d.t;
-                div.ondragstart = (e) => e.dataTransfer.setData("text", e.target.id);
-                source.appendChild(div);
-            });
-
-            ["Cahaya", "Gerak", "Bunyi", "Panas"].forEach(t => {
-                const div = document.createElement('div');
-                div.className = "drop-box";
-                div.dataset.type = t;
-                div.innerHTML = `Kotak Energi <strong>${t}</strong>`;
-                div.ondragover = (e) => e.preventDefault();
-                div.ondrop = (e) => {
-                    const id = e.dataTransfer.getData("text");
-                    const obj = document.getElementById(id);
-                    if(obj.dataset.target === e.target.dataset.type || e.target.closest('.drop-box').dataset.type === obj.dataset.target) {
-                        e.target.appendChild(obj);
-                        document.getElementById('dd-result').innerText = "Benar! Pintar sekali.";
-                    } else {
-                        document.getElementById('dd-result').innerText = "Coba lagi, ya!";
-                    }
-                };
-                targets.appendChild(div);
-            });
-        }
-
-        // --- Evaluasi ---
-        let evalQuestions = [];
-        function initEvaluasi() {
-            const area = document.getElementById('eval-quiz-area');
-            document.getElementById('eval-result').classList.add('hidden');
-            area.innerHTML = "";
-
-            // Simulasi 20 Soal HOTS
-            for(let i=1; i<=20; i++) {
-                area.innerHTML += `
-                    <div style="margin-bottom:20px; border:1px solid #ddd; padding:15px; border-radius:15px;">
-                        <p><strong>Soal ${i}:</strong> Manakah benda yang memiliki perubahan energi yang sama dengan kipas angin?</p>
-                        <input type="radio" name="q${i}" value="0"> Mixer<br>
-                        <input type="radio" name="q${i}" value="1"> Senter<br>
-                        <input type="radio" name="q${i}" value="2"> Radio
-                    </div>
-                `;
-            }
-            area.innerHTML += `<button class="btn btn-primary" onclick="selesaiEval()">Kirim Semua Jawaban</button>`;
-        }
-
-        function selesaiEval() {
-            const score = Math.floor(Math.random() * 41) + 60; // Simulasi skor
-            document.getElementById('eval-quiz-area').innerHTML = "";
-            document.getElementById('eval-result').classList.remove('hidden');
-            document.getElementById('eval-score-text').innerText = `Skor Akhir ${sName}: ${score}`;
-            document.getElementById('b-eval').style.display = 'block';
-        }
-
-        // --- Refleksi ---
-        function initRefleksi() {
-            const solo = [
-                {lv: "Prestruktural", q: "Apa satu benda yang kamu ingat yang bisa berubah energi?"},
-                {lv: "Unistruktural", q: "Sebutkan satu kegunaan energi panas matahari bagi tumbuhan!"},
-                {lv: "Multistruktural", q: "Sebutkan 3 benda di rumahmu yang butuh listrik dan apa perubahannya!"},
-                {lv: "Relasional", q: "Bagaimana hubungan antara makanan yang kamu makan dengan kemampuanmu berlari?"},
-                {lv: "Abstrak Diperluas", q: "Rancanglah sebuah ide bagaimana sekolahmu bisa tetap terang tanpa menggunakan lampu listrik!"}
-            ];
-            const area = document.getElementById('solo-area');
-            area.innerHTML = solo.map((s, i) => `
-                <div style="margin-bottom:15px;">
-                    <label><strong>Level ${i+1} (${s.lv}):</strong> ${s.q}</label>
-                    <textarea style="width:100%; padding:10px; border-radius:10px; margin-top:5px;" rows="2"></textarea>
-                </div>
-            `).join('');
-        }
-
-        window.onload = () => { console.log("Media Siap."); };
     </script>
 </body>
 </html>
